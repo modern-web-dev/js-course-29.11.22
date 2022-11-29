@@ -1,46 +1,61 @@
-const person = {
-    name: 'Marek',
-    address: {
-        zipCode: '53-601'
-    },
+let myNumbers = [1, 3, 5, 6, 45, 32, 54];
 
-    letMeIntroduceMyself: function() {
-        // console.log(this);
-        return 'My name is ' + this.name;
+let sum = 0;
+for (let i = 0; i < myNumbers.length; i++) {
+    let currentNumber = myNumbers[i];
+    currentNumber = addTax(currentNumber);
+    const onlyGreaterThanTen = onlyGreaterThan(10);
+    if (onlyGreaterThan(10)(currentNumber)) {
+        sum += myNumbers[i];
+    }
+}
+console.log(sum);
+
+const sumFun = myNumbers
+    .map(addTax)
+    .filter(onlyGreaterThan(10))
+    .reduce(calculateSum, 0);
+
+console.log(sumFun);
+
+function addTax(value) {
+    return value + 3;
+}
+
+function onlyGreaterThanTen(value) {
+    return value > 10;
+}
+
+function onlyGreaterThan(valueToCompare) {
+    return function (value) {
+        return value > valueToCompare;
     }
 }
 
-class Person {
-    constructor(name) {
-        this.name = name;
-        // this.letMeIntroduceMyself = this.letMeIntroduceMyself.bind(this);
-    }
-
-    // letMeIntroduceMyself = () => {
-    //     console.log(`My name is ${this.name}`);
-    // };
-
-    letMeIntroduceMyself() {
-        console.log(`My name is ${this.name}`);
-    }
-
-    printMyNameDelayed() {
-        setTimeout(() => this.letMeIntroduceMyself(), 2000);
-    }
+function calculateSum(partialSum, value) {
+    return partialSum + value;
 }
 
-const czarek = new Person('Czarek');
-czarek.printMyNameDelayed();
-// console.log(execute(czarek.letMeIntroduceMyself));
-// console.log(execute(czarek.letMeIntroduceMyself.bind(czarek)));
+const person = function (name) {
+    const internals = {
+        nameInternal : name,
+        doSomethingPrivately() {
+            this.nameInternal = this.nameInternal.toUpperCase();
+        }
+    }
 
+    return {
+        getName() {
+            return internals.nameInternal;
+        },
 
-// console.log(person.letMeIntroduceMyself());
-// console.log(execute(person.letMeIntroduceMyself.bind(person)));
+        toUpperCase() {
+            internals.doSomethingPrivately();
+        }
+    }
+}('Marek');
 
-function execute(what) {
-    // JavaScript ABC
-    return what();
-    // return what.call(null, 1, 3);
-    // return what.apply({name: 'Internal'}, []);
-}
+console.log(person.getName());
+person.toUpperCase()
+console.log(person.getName());
+
