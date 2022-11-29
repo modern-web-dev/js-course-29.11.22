@@ -1,61 +1,34 @@
-let myNumbers = [1, 3, 5, 6, 45, 32, 54];
-
-let sum = 0;
-for (let i = 0; i < myNumbers.length; i++) {
-    let currentNumber = myNumbers[i];
-    currentNumber = addTax(currentNumber);
-    const onlyGreaterThanTen = onlyGreaterThan(10);
-    if (onlyGreaterThan(10)(currentNumber)) {
-        sum += myNumbers[i];
-    }
-}
-console.log(sum);
-
-const sumFun = myNumbers
-    .map(addTax)
-    .filter(onlyGreaterThan(10))
-    .reduce(calculateSum, 0);
-
-console.log(sumFun);
-
-function addTax(value) {
-    return value + 3;
-}
-
-function onlyGreaterThanTen(value) {
-    return value > 10;
-}
-
-function onlyGreaterThan(valueToCompare) {
-    return function (value) {
-        return value > valueToCompare;
+class User {
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 }
 
-function calculateSum(partialSum, value) {
-    return partialSum + value;
+class UserComponent {
+    constructor(documentApi) {
+        this.userFormElement = documentApi.querySelector('form');
+        this.userFormElement.addEventListener('submit', event => {
+            event.preventDefault();
+            this.saveUser();
+        });
+    }
+
+    setUser({firstName, lastName}) {
+        const firstNameInput = this.userFormElement.querySelector('#firstName');
+        firstNameInput.value = firstName;
+        const lastNameInput = this.userFormElement.querySelector('#lastName');
+        lastNameInput.value = lastName;
+    }
+
+    saveUser() {
+        const firstNameInput = this.userFormElement.querySelector('#firstName');
+        const lastNameInput = this.userFormElement.querySelector('#lastName');
+        const savedUser = new User(firstNameInput.value, lastNameInput.value);
+        console.log(savedUser);
+    }
 }
 
-const person = function (name) {
-    const internals = {
-        nameInternal : name,
-        doSomethingPrivately() {
-            this.nameInternal = this.nameInternal.toUpperCase();
-        }
-    }
-
-    return {
-        getName() {
-            return internals.nameInternal;
-        },
-
-        toUpperCase() {
-            internals.doSomethingPrivately();
-        }
-    }
-}('Marek');
-
-console.log(person.getName());
-person.toUpperCase()
-console.log(person.getName());
-
+const component = new UserComponent(document);
+component.setUser(new User('Marek', 'Matczak'));
+// component.ini
