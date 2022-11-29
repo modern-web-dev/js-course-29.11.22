@@ -1,37 +1,46 @@
-let marek = {
+const person = {
     name: 'Marek',
-    age: 0,
-    dateOfBirth: new Date('1979-01-25'),
-    worksForCapgemini: true,
     address: {
-        city: 'Wroclaw',
         zipCode: '53-601'
+    },
+
+    letMeIntroduceMyself: function() {
+        // console.log(this);
+        return 'My name is ' + this.name;
     }
-};
+}
 
 class Person {
-    constructor(name, age) {
+    constructor(name) {
         this.name = name;
-        this.age = age;
+        // this.letMeIntroduceMyself = this.letMeIntroduceMyself.bind(this);
+    }
+
+    // letMeIntroduceMyself = () => {
+    //     console.log(`My name is ${this.name}`);
+    // };
+
+    letMeIntroduceMyself() {
+        console.log(`My name is ${this.name}`);
+    }
+
+    printMyNameDelayed() {
+        setTimeout(() => this.letMeIntroduceMyself(), 2000);
     }
 }
 
-const czarek = new Person('Czarek', 33);
-// marek.address = undefined;
-// marek = undefined;
-// const zipCode = marek.address.zipCode;
-// falsy values in JS: null, undefined, 0, '', NaN, false
-// const zipCode = (marek && marek.address && marek.address.zipCode) || 'NO ZIP CODE';
-// delete marek.age;
-const age = marek?.age ?? 'NO AGE';
-console.log(age);
+const czarek = new Person('Czarek');
+czarek.printMyNameDelayed();
+// console.log(execute(czarek.letMeIntroduceMyself));
+// console.log(execute(czarek.letMeIntroduceMyself.bind(czarek)));
 
-if (marek.name != null) {
 
+// console.log(person.letMeIntroduceMyself());
+// console.log(execute(person.letMeIntroduceMyself.bind(person)));
+
+function execute(what) {
+    // JavaScript ABC
+    return what();
+    // return what.call(null, 1, 3);
+    // return what.apply({name: 'Internal'}, []);
 }
-
-
-// delete marek.name;
-// console.log(marek['name']);
-// console.log(czarek);
-
